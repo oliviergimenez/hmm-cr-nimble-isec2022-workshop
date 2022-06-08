@@ -1,6 +1,6 @@
 # Bayesian capture-recapture inference with R and Nimble
 
-This repository holds the source materials used at https://oliviergimenez.github.io/bayesian-cr-workshop/
+This repository holds the source materials used at https://oliviergimenez.github.io/hmm-cr-nimble-isec2022-workshop/
  
 ## Reuse
 
