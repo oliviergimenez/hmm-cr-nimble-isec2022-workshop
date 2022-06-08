@@ -1,0 +1,59 @@
+---
+title: "Bayesian capture-recapture inference with hidden Markov models"
+description: "A half-a-day workshop with `R` and `Nimble`"
+site: distill::distill_website
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+The hidden Markov modelling (HMM) framework has gained much attention in the ecological literature over the last decade, and has been suggested as a general modelling framework for the demography of plant and animal populations. In particular, HMMs are increasingly used to analyse capture-recapture data and estimate key population parameters (e.g., survival, dispersal, recruitment or abundance) with applications in all fields of ecology. 
+
+In parallel, Bayesian statistics is relatively well established in ecology and related disciplines, because it resonates with scientific reasoning and allows accommodating uncertainty smoothly. The popularity of Bayesian statistics also comes from the availability of free pieces of software that allow practitioners to code their own analyses.
+
+In this half-a-day workshop, we offer a Bayesian treatment of HMMs applied to capture-recapture data. Through a combination of lectures, real case studies and live demonstrations, you will get acquainted with multi-site, multi-state and multi-event capture-recapture models.
+
+We will use the R `Nimble` package that is seen by many as the future of ecological data modelling because it i) helps overcome computational limitations that ecologists are faced with when dealing with complex models and/or big data, and iii) provides samplers that can deal with discrete latent states that are typical of capture-recapture data analysis.
+
+**Who**: [Olivier Gimenez](https://twitter.com/oaggimenez), [Daniel Turek](https://math.williams.edu/profile/dbt1/)  
+
+**When**: Sunday, 26 June 2022
+
+**Where**: Online
+
+### Program 
+
+All times are Cape Town/Paris time UTC+2
+
+1. What you see is not what you get: Hidden Markov models and capture-recapture data (9:00am-9:45am)
+2. On the move: Transition estimation (10:00am-10:45am)
+3. Known knowns, unknown knowns and unknowns: Uncertainty in state assignment (11:00am-11:45am)
+4. Skip your coffee break: Speed up MCMC convergence (noon-12:45pm)
+
+### Requirements
+
++ Install [`R`](https://cloud.r-project.org/) and [`RStudio`](https://rstudio.com/products/rstudio/download/#download). 
+
++ Install `Nimble` following [these guidelines](https://r-nimble.org/download). Then run the following code in `R`. If that runs without error, you're all set. If not, please get in touch with us.
+
+    ```{r eval = FALSE, echo = TRUE}
+    library(nimble)
+    code <- nimbleCode({
+    y ~ dnorm(0,1)
+    })
+    model <- nimbleModel(code)
+    cModel <- compileNimble(model)
+    ```
+    
++ Install the following `R` packages: `tidyverse`, `MCMCvis`, `here` and `nimbleEcology`. You can install them all at once by running the following code in `R`:
+
+    ```{r eval = FALSE, echo = TRUE}
+    install.packages(c("tidyverse", "MCMCvis", "here", "nimbleEcology"))
+    ```
+
+
+### Reuse {.appendix}
+
+Text and figures are licensed under Creative Commons Attribution [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Any computer code (R, HTML, CSS, etc.) in slides and worksheets, including in slide and worksheet sources, is also licensed under [MIT](https://github.com/oliviergimenez/hmm-cr-nimble-isec2022-workshop/blob/master/LICENSE.md). 
+
