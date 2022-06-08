@@ -55,5 +55,5 @@ All times are Cape Town/Paris time UTC+2
 
 ### Reuse {.appendix}
 
-Text and figures are licensed under Creative Commons Attribution [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Any computer code (R, HTML, CSS, etc.) in slides and worksheets, including in slide and worksheet sources, is also licensed under [MIT](https://github.com/oliviergimenez/hmm-cr-nimble-isec2022-workshop/blob/master/LICENSE.md). 
+Text and figures are licensed under Creative Commons Attribution [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). Any computer code (R, HTML, CSS, etc.) in slides and worksheets, including in slide and worksheet sources, is also licensed under [MIT](https://raw.githubusercontent.com/oliviergimenez/hmm-cr-nimble-isec2022-workshop/main/LICENSE.md). 
 
