@@ -16,6 +16,8 @@ In this half-a-day workshop, we offer a Bayesian treatment of HMMs applied to ca
 
 We will use the R `Nimble` package that is seen by many as the future of ecological data modelling because it i) helps overcome computational limitations that ecologists are faced with when dealing with complex models and/or big data, and iii) provides samplers that can deal with discrete latent states that are typical of capture-recapture data analysis.
 
+You may check a longer version of this workshop [here](https://oliviergimenez.github.io/bayesian-cr-workshop/). A book is also on its way, you may check the online version [there](https://oliviergimenez.github.io/banana-book/).
+
 **Who**: [Olivier Gimenez](https://twitter.com/oaggimenez), [Daniel Turek](https://math.williams.edu/profile/dbt1/)  
 
 **When**: Sunday, 26 June 2022
