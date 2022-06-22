@@ -1,6 +1,6 @@
 ---
-title: "What you see is not what you get: Hidden Markov models and capture-recapture data"
-author: "The team"
+title: "Hidden Markov models and capture-recapture data"
+author: "Olivier Gimenez & Daniel Turek"
 date: "last updated: `r Sys.Date()`"
 output:
   xaringan::moon_reader:
@@ -18,7 +18,7 @@ header-includes:
   - \usepackage{blkarray}
 ---
 
-```{r setup, include=FALSE, echo=FALSE, cache = TRUE}
+```{r setup, include=FALSE, echo=FALSE, cache = FALSE}
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(comment = "")
 library(tidyverse)
@@ -29,7 +29,15 @@ library(nimble)
 library(MCMCvis)
 ```
 
-# Back to our survival example
+# A simple survival example
+
+--
+
++ Say we release $n$ animals at the beginning of the winter, out of which $y$ survive, and we'd like to estimate winter survival $\theta$. 
+```{r}
+y <- 19 # nb of success
+n <- 57 # nb of attempts
+```
 
 --
 
@@ -37,12 +45,12 @@ library(MCMCvis)
 
 ???
 
-+ Let's get back to our survival example. 
-+ We had z survivors out of n released individuals, which survived with probability phi. 
++ Let's think of a simple survival example. 
++ We have z survivors out of n released individuals, which survived with probability phi. 
 
---
+---
 
-+ Our model so far:
++ Our model:
 
 \begin{align*}
    z &\sim \text{Binomial}(n, \phi) &\text{[likelihood]}
@@ -71,9 +79,227 @@ library(MCMCvis)
 + The binomial is just a sum of Bernoulli outcomes
 + Like flipping a coin for each individual and get a survivor with prob phi. 
 
+
+---
+## Code and data
+
+```{r}
+naive.survival.model <- nimbleCode({
+  # prior
+  phi ~ dunif(0, 1)
+  # likelihood
+  y ~ dbinom(phi, n)
+})
+```
+
+```{r}
+my.data <- list(n = 57, y = 19)
+```
+
+
+---
+## Distinguish constants and data
+
+To Nimble, not all "data" is data...
+```{r}
+my.constants <- list(n = 57)
+my.data <- list(y = 19)
+```
+
 --
 
-+ What if we had several winters? Say $T = 5$ winters.
+**Constants**:
++ Can never be changed 
++ Must be provided when a model is defined (part of the model structure)
++ E.g. vector of known index values, variables used to define for-loops, etc. 
+
+---
+## Distinguish constants and data
+
+To Nimble, not all "data" is data...
+```{r}
+my.constants <- list(n = 57)
+my.data <- list(y = 19)
+```
+
+**Data**:
++ Can be changed without re-building the model 
++ Can be (re-)simulated within a model
++ E.g. stuff that *only* appears to the left of a "~" 
+
+--
+
+For computational efficiency, better to specify as much as possible as constants.
+
+--
+
+Nimble will help you with this!
+
+---
+## Specify initial values
+
+```{r}
+initial.values <- function() list(phi = runif(1,0,1))
+```
+
+--
+
+```{r}
+initial.values()
+```
+
+
+---
+## Which parameters to save?
+
+```{r}
+parameters.to.save <- c("phi")
+```
+
+---
+## MCMC details
+
+```{r}
+n.iter <- 5000
+n.burnin <- 1000
+n.chains <- 2
+n.thin <- 1
+```
+
+--
+
+Number of posterior samples per chain: 
+
+$$n.posterior = \frac{n.iter - n.burnin}{n.thin}$$
+
+
+---
+## Run model, tadaa!
+
+```{r, warning=FALSE, message=FALSE, eval = FALSE}
+mcmc.output <- nimbleMCMC(code = naive.survival.model,     
+                          data = my.data,  
+                          constants = my.constants,
+                          inits = initial.values,
+                          monitors = parameters.to.save,
+                          thin = n.thin,
+                          niter = n.iter, 
+                          nburnin = n.burnin, 
+                          nchains = n.chains)
+```
+
+```{r, cache = TRUE, echo = FALSE, warning=FALSE, message=FALSE}
+mcmc.output <- nimbleMCMC(code = naive.survival.model,     
+                          data = my.data,              
+                          constants = my.constants,
+                          inits = initial.values,
+                          monitors = parameters.to.save,
+                          niter = n.iter, 
+                          nburnin = n.burnin, 
+                          nchains = n.chains,
+                          progressBar = FALSE)
+```
+
+
+
+
+---
+## Explore MCMC outputs
+
+```{r}
+str(mcmc.output)
+```
+
+
+---
+## Explore MCMC outputs
+
+```{r}
+head(mcmc.output$chain1)
+```
+
+---
+## Explore MCMC outputs
+
+.center.nogap[
+```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.618, dev = "svg", message=FALSE, warning=FALSE}
+mcmc.output %>%
+  as_tibble() %>%
+  janitor::clean_names() %>%
+  ggplot() + 
+  geom_histogram(aes(x = chain1[,"phi"]), color = "white") + 
+  labs(x = "survival probability")
+```
+]
+
+---
+## Numerical summaries
+
+```{r}
+library(MCMCvis)
+MCMCsummary(mcmc.output, round = 2)
+```
+
+---
+## Trace and posterior density
+
+.pull-left[
+
+```{r eval = FALSE}
+MCMCtrace(mcmc.output,
+          pdf = FALSE) 
+```
+]
+
+--
+
+.pull-right[
+
+.center.nogap[
+```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.618, dev = "svg", message=FALSE, warning=FALSE}
+MCMCtrace(mcmc.output,
+          pdf = FALSE) 
+```
+]
+]
+
+
+
+
+---
+## Trace and posterior density
+
+.pull-left[
+
+```{r eval = FALSE}
+MCMCtrace(mcmc.output,
+          pdf = FALSE,
+          ind = TRUE,
+          Rhat = TRUE,
+          n.eff = TRUE) 
+```
+]
+
+--
+
+.pull-right[
+
+.center.nogap[
+```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.618, dev = "svg", message=FALSE, warning=FALSE}
+MCMCtrace(mcmc.output,
+          pdf = FALSE,
+          ind = TRUE,
+          Rhat = TRUE,
+          n.eff = TRUE) 
+```
+]
+]
+
+---
+
+class: middle, center
+
+## What if we had several winters? Say $T = 5$ winters.
 
 ???
 
@@ -916,7 +1142,7 @@ markov.survival <- nimbleCode({
 ---
 ### Note
 
-+ Vector $\delta$ is used as a placeholder for more complex models to come in Class 7.
++ Vector $\delta$ is used as a placeholder for more complex models to come.
 
 + Here, you could write `z[i,1] <- 1`. 
 
@@ -1395,65 +1621,65 @@ $$
 \end{align*}
 
 
----
-# Example 
+<!-- --- -->
+<!-- # Example  -->
 
-+ Let assume an animal is detected, then missed. 
+<!-- + Let assume an animal is detected, then missed.  -->
 
---
+<!-- -- -->
 
-+ We have $\mathbf{y} = (2, 1)$. What is the contribution of this animal to the likelihood?
+<!-- + We have $\mathbf{y} = (2, 1)$. What is the contribution of this animal to the likelihood? -->
 
---
+<!-- -- -->
 
-\begin{align*}
-\Pr(\mathbf{y} = (2, 1)) &= \sum_{z_1 = 1}^2 \; \sum_{z_2 = 1}^2 w_{z_1, y_1 = 2} w_{z_2, y_2 = 1} \Pr(z_1) \gamma_{z_1, z_2} \color{white}{\Pr(z_{T-1}, z_{T-2},\ldots, z_1, z_1, z_1, z_1)}\\
-\end{align*}
-
-
----
-# Example 
-
-+ Let assume an animal is detected, then missed. 
-
-+ We have $\mathbf{y} = (2, 1)$. What is the contribution of this animal to the likelihood?
-
-\begin{align*}
-\Pr(\mathbf{y} = (2, 1)) &= \sum_{z_1 = 1}^2 \; \sum_{z_2 = 1}^2 w_{z_1, y_1 = 2} w_{z_2, y_2 = 1} \Pr(z_1) \gamma_{z_1, z_2} \color{white}{\Pr(z_{T-1}, z_{T-2},\ldots, z_1, z_1, z_1, z_1)}\\
-&= \sum_{z_1 = 1}^2 \left( w_{z_1, y_1 = 2} w_{z_2 = 1, y_2 = 1} \Pr(z_1) \gamma_{z_1, z_2 = 1} + w_{z_1, y_1 = 2} w_{z_2 = 2, y_2 = 1} \Pr(z_1) \gamma_{z_1, z_2 = 2} \right) \\
-\end{align*}
-
----
-# Example 
-
-+ Let assume an animal is detected, then missed. 
-
-+ We have $\mathbf{y} = (2, 1)$. What is the contribution of this animal to the likelihood?
-
-\begin{align*}
-\Pr(\mathbf{y} = (2, 1)) &= \sum_{z_1 = 1}^2 \; \sum_{z_2 = 1}^2 w_{z_1, y_1 = 2} w_{z_2, y_2 = 1} \Pr(z_1) \gamma_{z_1, z_2} \color{white}{\Pr(z_{T-1}, z_{T-2},\ldots, z_1, z_1, z_1, z_1)}\\
-&= \sum_{z_1 = 1}^2 \left( w_{z_1, y_1 = 2} w_{z_2 = 1, y_2 = 1} \Pr(z_1) \gamma_{z_1, z_2 = 1} + w_{z_1, y_1 = 2} w_{z_2 = 2, y_2 = 1} \Pr(z_1) \gamma_{z_1, z_2 = 2} \right) \\
-&= w_{z_1 = 1, y_1 = 2} w_{z_2 = 1, y_2 = 1}\delta_1 \gamma_{z_1 = 1, z_2 = 1} + w_{z_1 = 1, y_1 = 2} w_{z_2 = 2, y_2 = 1} \delta_1 \gamma_{z_1 = 1, z_2 = 2}
-\end{align*}
-
-Note: $\Pr(z_1 = 1) = \delta_1 = 1$ and $\Pr(z_1 = 2) = 0$. 
+<!-- \begin{align*} -->
+<!-- \Pr(\mathbf{y} = (2, 1)) &= \sum_{z_1 = 1}^2 \; \sum_{z_2 = 1}^2 w_{z_1, y_1 = 2} w_{z_2, y_2 = 1} \Pr(z_1) \gamma_{z_1, z_2} \color{white}{\Pr(z_{T-1}, z_{T-2},\ldots, z_1, z_1, z_1, z_1)}\\ -->
+<!-- \end{align*} -->
 
 
----
-# Example 
+<!-- --- -->
+<!-- # Example  -->
 
-+ Let assume an animal is detected, then missed. 
+<!-- + Let assume an animal is detected, then missed.  -->
 
-+ We have $\mathbf{y} = (2, 1)$. What is the contribution of this animal to the likelihood?
+<!-- + We have $\mathbf{y} = (2, 1)$. What is the contribution of this animal to the likelihood? -->
 
-\begin{align*}
-\Pr(\mathbf{y} = (2, 1)) &= \sum_{z_1 = 1}^2 \; \sum_{z_2 = 1}^2 w_{z_1, y_1 = 2} w_{z_2, y_2 = 1} \Pr(z_1) \gamma_{z_1, z_2} \color{white}{\Pr(z_{T-1}, z_{T-2},\ldots, z_1, z_1, z_1, z_1)}\\
-&= \sum_{z_1 = 1}^2 \left( w_{z_1, y_1 = 2} w_{z_2 = 1, y_2 = 1} \Pr(z_1) \gamma_{z_1, z_2 = 1} + w_{z_1, y_1 = 2} w_{z_2 = 2, y_2 = 1} \Pr(z_1) \gamma_{z_1, z_2 = 2} \right) \\
-&= w_{z_1 = 1, y_1 = 2} w_{z_2 = 1, y_2 = 1} \delta_1 \gamma_{z_1 = 1, z_2 = 1} + w_{z_1 = 1, y_1 = 2} w_{z_2 = 2, y_2 = 1} \delta_1 \gamma_{z_1 = 1, z_2 = 2}\\
-&= (1 - p) \phi + (1-\phi)
-\end{align*}
+<!-- \begin{align*} -->
+<!-- \Pr(\mathbf{y} = (2, 1)) &= \sum_{z_1 = 1}^2 \; \sum_{z_2 = 1}^2 w_{z_1, y_1 = 2} w_{z_2, y_2 = 1} \Pr(z_1) \gamma_{z_1, z_2} \color{white}{\Pr(z_{T-1}, z_{T-2},\ldots, z_1, z_1, z_1, z_1)}\\ -->
+<!-- &= \sum_{z_1 = 1}^2 \left( w_{z_1, y_1 = 2} w_{z_2 = 1, y_2 = 1} \Pr(z_1) \gamma_{z_1, z_2 = 1} + w_{z_1, y_1 = 2} w_{z_2 = 2, y_2 = 1} \Pr(z_1) \gamma_{z_1, z_2 = 2} \right) \\ -->
+<!-- \end{align*} -->
 
-Note: $w_{z_1 = 1, y_1 = 2} = \Pr(y_1 = 2 | z_1 = 1) = 1$ because we condition on first capture. 
+<!-- --- -->
+<!-- # Example  -->
+
+<!-- + Let assume an animal is detected, then missed.  -->
+
+<!-- + We have $\mathbf{y} = (2, 1)$. What is the contribution of this animal to the likelihood? -->
+
+<!-- \begin{align*} -->
+<!-- \Pr(\mathbf{y} = (2, 1)) &= \sum_{z_1 = 1}^2 \; \sum_{z_2 = 1}^2 w_{z_1, y_1 = 2} w_{z_2, y_2 = 1} \Pr(z_1) \gamma_{z_1, z_2} \color{white}{\Pr(z_{T-1}, z_{T-2},\ldots, z_1, z_1, z_1, z_1)}\\ -->
+<!-- &= \sum_{z_1 = 1}^2 \left( w_{z_1, y_1 = 2} w_{z_2 = 1, y_2 = 1} \Pr(z_1) \gamma_{z_1, z_2 = 1} + w_{z_1, y_1 = 2} w_{z_2 = 2, y_2 = 1} \Pr(z_1) \gamma_{z_1, z_2 = 2} \right) \\ -->
+<!-- &= w_{z_1 = 1, y_1 = 2} w_{z_2 = 1, y_2 = 1}\delta_1 \gamma_{z_1 = 1, z_2 = 1} + w_{z_1 = 1, y_1 = 2} w_{z_2 = 2, y_2 = 1} \delta_1 \gamma_{z_1 = 1, z_2 = 2} -->
+<!-- \end{align*} -->
+
+<!-- Note: $\Pr(z_1 = 1) = \delta_1 = 1$ and $\Pr(z_1 = 2) = 0$.  -->
+
+
+<!-- --- -->
+<!-- # Example  -->
+
+<!-- + Let assume an animal is detected, then missed.  -->
+
+<!-- + We have $\mathbf{y} = (2, 1)$. What is the contribution of this animal to the likelihood? -->
+
+<!-- \begin{align*} -->
+<!-- \Pr(\mathbf{y} = (2, 1)) &= \sum_{z_1 = 1}^2 \; \sum_{z_2 = 1}^2 w_{z_1, y_1 = 2} w_{z_2, y_2 = 1} \Pr(z_1) \gamma_{z_1, z_2} \color{white}{\Pr(z_{T-1}, z_{T-2},\ldots, z_1, z_1, z_1, z_1)}\\ -->
+<!-- &= \sum_{z_1 = 1}^2 \left( w_{z_1, y_1 = 2} w_{z_2 = 1, y_2 = 1} \Pr(z_1) \gamma_{z_1, z_2 = 1} + w_{z_1, y_1 = 2} w_{z_2 = 2, y_2 = 1} \Pr(z_1) \gamma_{z_1, z_2 = 2} \right) \\ -->
+<!-- &= w_{z_1 = 1, y_1 = 2} w_{z_2 = 1, y_2 = 1} \delta_1 \gamma_{z_1 = 1, z_2 = 1} + w_{z_1 = 1, y_1 = 2} w_{z_2 = 2, y_2 = 1} \delta_1 \gamma_{z_1 = 1, z_2 = 2}\\ -->
+<!-- &= (1 - p) \phi + (1-\phi) -->
+<!-- \end{align*} -->
+
+<!-- Note: $w_{z_1 = 1, y_1 = 2} = \Pr(y_1 = 2 | z_1 = 1) = 1$ because we condition on first capture.  -->
 
 ---
 ### Estimating the latent states $z$ or not?
@@ -1484,7 +1710,7 @@ Note: $w_{z_1 = 1, y_1 = 2} = \Pr(y_1 = 2 | z_1 = 1) = 1$ because we condition o
 
 --
 
-+ The neat thing with Nimble is that it provides marginalised models through nimbleEcology, we'll get back to it in Class 8.
++ The neat thing with Nimble is that it provides marginalised models through nimbleEcology, we'll get back to it later on.
 
 ---
 # Our model
