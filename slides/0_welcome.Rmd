@@ -1,6 +1,6 @@
 ---
 title: "Welcoming words"
-author: "The team"
+author: "Olivier Gimenez & Daniel Turek"
 date: "last updated: `r Sys.Date()`"
 output:
   xaringan::moon_reader:
@@ -25,61 +25,6 @@ library(here)
 library(nimble)
 ```
 
-
-
-
-class: middle
-background-image: url(img/montpellier.png)
-background-size: cover
-
-???
-
-+ Welcome. My name is Olivier Gimenez
-+ I am a scientist working in statistical ecology and population dynamics in particular. 
-+ I am based in Montpellier in southern France.
-+ I thought I'd share some a few pictures of what you’re missing. It's a bit cruel I know. 
-+ I really wish the workshop would be in Montpellier to show you the city wonders and its surroundings.  
-
----
-class: center, middle
-background-image: url(img/zoom-covid.png)
-background-size: cover
-
-???
-
-+ Instead, we'll be spending quality time on Zoom, and Slack as well. 
-+ It has its advantages, not sure we could have fit you all in our conference room. 
-
-
----
-.pull-left[
-.title-font[How it all started]
-
-<center><blockquote class="twitter-tweet"><p lang="en" dir="ltr">📢📅🪤 Inference about animal demographic parameters: Bayesian analysis of capture-recapture data using Jags/Nimble. May 17-18, 2021. Remote workshop. Free of charge. Video-recorded. 🥳<br>➡️ Registration is up and running <a href="https://t.co/wB94IWtBKY">https://t.co/wB94IWtBKY</a><br>➡️ Details in the thread. <a href="https://t.co/mP3tuleIkZ">https://t.co/mP3tuleIkZ</a></p>&mdash; Olivier Gimenez 🖖 (@oaggimenez) <a href="https://twitter.com/oaggimenez/status/1355068873746362368?ref_src=twsrc%5Etfw">January 29, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></center>
-
-]
-
-???
-
-+ Everything started in January this year, on Twitter, when I asked who would be interested in a workshop on Bayesian capture-recapture. 
-
---
-
-.pull-right[
-.title-font[Where we're at]
-
-.center[
-![](img/googleform.png)
-]
-
-]
-
-???
-
-+ The number of responses blew my mind. 
-+ And here we're are, a few months later, with near 600 folks who registered. 
-
----
 ## What this workshop is about
 
 ???
@@ -113,107 +58,6 @@ background-size: cover
 + We'll work within the Bayesian framework for many reasons we will develop, but mainly because Bayesian statistics make it easy to manage uncertainty, and also because with MCMC, we can fit pretty much fit any models. 
 
 ---
-## Credits and inspiration
-
-???
-
-+ This workshop does not come from nowhere, and I'd like to spend a minute or two on credits and to thank those who inspired me to organise this event. 
-
---
-
-+ Past workshops on capture-recapture models w/ Roger Pradel, Rémi Choquet and Jean-Dominique Lebreton.
-
-???
-
-+ We've been running workshops on capture-recapture models in Montpellier for 10-15 years now with my colleagues Roger, Rémi and Jean-Dominique. 
-+ I learnt so much from them, I owe them a lot. 
-
---
-
-+ Past workshops on Bayesian analyses for population ecology with Ruth King, Steve Brooks and Byron Morgan.
-
-???
-
-+ We also run a few workshops on Bayesian analyses for population ecology with Ruth, Steve and Byron. 
-+ Again, I learnt so much much from these folks, I owe them a lot. 
-
-
---
-
-+ Workshops on Nimble by Chris Paciorek, Daniel Turek and Perry de Valpine.
-
-???
-
-+ We will use Nimble to run our Bayesian analyses during this workshop. 
-+ There are several slides that we borrow from workshops run by the Nimble team Chris, Daniel and Perry. 
-+ Perry will be with us tomorrow. 
-
---
-
-+ Workshops on integrated population modeling with Michael Schaub and Marc Kéry.
-
-???
-
-+ We also contributed recently to a workshop organised by Michael and Marc.
-+ With some material on capture-recapture models that I have recycled here. 
-
---
-
-+ Books by Marc Kéry, Michael Schaub, Andy Royle and others <span>&#8212;</span> check out [curated list](https://www.mbr-pwrc.usgs.gov/pubanalysis/roylebook/).
-
-???
-
-+ We have also been much inspired by several books by Marc, Michael, Andy Royle and many others, check out this curated list for more details. 
-
---
-
-+ Daniel Turek's sabbatical in the team.
-
-???
-
-+ Last, but not least, this is Daniel Turek's sabbatical in our team which triggers my conversion to nimble. 
-+ Daniel wish he was with us but he was busy with other commitments. 
-+ I would like to tell him many thanks for everything he did for us. 
-
-
----
-### The team 
-
-```{r, echo = FALSE, fig.width = 7.5, fig.asp = 0.718, dev = "svg", message = FALSE, warning = FALSE}
-library(cowplot)
-p1 <- ggdraw() + 
-  draw_image(here::here("slides","img","chloe.jpg"), scale = 0.9) + 
-  draw_label(label = "Chloe Rebecca Nater", hjust = -.4)
-
-p2 <- ggdraw() + 
-  draw_image(here::here("slides","img","sarah.jpg"), scale = 0.9) + 
-  draw_label(label = "Sarah Cubaynes", hjust = -.5)
-
-p3 <- ggdraw() + 
-  draw_image(here::here("slides","img","maud.png"), scale = 0.9) + 
-  draw_label(label = "Maud Quéroué", hjust = -.5)
-
-p4 <- ggdraw() + 
-  draw_image(here::here("slides","img","perry.jpg"), scale = 0.9) + 
-  draw_label(label = "Perry de Valpine", hjust = -.5)
-
-p5 <- ggdraw() + 
-  draw_image(here::here("slides","img","olivier.jpg"), scale = 0.85) + 
-  draw_label(label = "Olivier Gimenez", hjust = -.5)
-
-library(patchwork)
-
-p1 / p2 / p3 / p4 / p5
-```
-
-???
-
-+ With 600 attendees, I was feeling a bit alone to run this workshop on my own.
-+ Several friends have agreed on joining the venture.
-+ We will be 5 teachers with you today and tomorrow.  
-+ Time for introductions I guess. 
-
----
 ## On our plate
 
 ???
@@ -222,33 +66,38 @@ p1 / p2 / p3 / p4 / p5
 
 --
 
-### Day 1
-+ Crash course on Bayesian statistics and MCMC algorithms
-+ Free the modeler in you: Introduction to Nimble
-+ What you see is not what you get: Hidden Markov models and capture-recapture
-+ Dead or alive: Survival estimation
++ What you see is not what you get: Hidden Markov models and capture-recapture data (9:00am-9:45am) - Olivier
 
 ???
 
-+ First day is about introductions. Introduction to Bayesian stats and MCMC methods. 
-+ Introduction to hidden Markov models. 
-+ And introduction to standard capture-recapture models. 
++ First things first, we'll go through an introduction to hidden Markov models. 
++ We'll talk about survival models.
 
 --
 
-### Day 2
-+ On the move: Transition estimation
-+ Known knowns, unknown knowns and unknowns: Uncertainty in state assignment
-+ Skip your coffee break: Speed up MCMC convergence 
-+ Take-home messages
++ On the move: Transition estimation (10:00am-10:45am) - Daniel
 
 ???
 
-+ Second day will be about advanced stuff. 
-+ Advanced capture-recapture models to estimate transition between states (geographical sites or breeding states for example).
++ And models to estimate transition between states.
++ Geographical sites or breeding states for example.
+
+--
+
++ Known knowns, unknown knowns and unknowns: Uncertainty in state assignment (11:00am-11:45am) - Olivier
+
+???
+
++ Then it will be about more advanced stuff. 
 + How to account for uncertainty in the assignment of these states to individuals. 
+
+--
+
++ Skip your coffee break: Speed up MCMC convergence (noon-12:45pm) - Daniel
+
+???
+
 + Also how to save time when running long analyses on your computer. 
-+ We'll close the workshop with some recommendations and take-home messages. 
 
 ---
 ## Philosophy of teaching
@@ -259,11 +108,11 @@ p1 / p2 / p3 / p4 / p5
 
 --
 
-+ Lots of attendees, with huge heterogeneity in knowledge of capture-recapture models, Bayesian methods, `R` and `Nimble`.
++ You're 44 attendees, with some heterogeneity in knowledge of capture-recapture models, Bayesian methods, `R` and `Nimble`.
 
 ???
 
-+ You'll be several hundreds folks attending today and tomorrow, there is heterogeneity in knowledge of the methods we will cover. 
++ You'll be 44 folks attending today, there is heterogeneity in knowledge of the methods we will cover. 
 
 --
 
@@ -275,11 +124,11 @@ p1 / p2 / p3 / p4 / p5
 
 --
 
-+ We've packed a lot of things in two days.
++ We've packed a lot of things half a day.
 
 ???
 
-+ We'll be covering a lot of things in two days. 
++ We'll be covering a lot of things in half a day. 
 
 --
 
@@ -292,7 +141,7 @@ p1 / p2 / p3 / p4 / p5
 
 --
 
-+ All material (including videos) on website <https://oliviergimenez.github.io/bayesian-cr-workshop/>.
++ All material (including videos) on website <https://oliviergimenez.github.io/hmm-cr-nimble-isec2022-workshop/>.
 
 ???
 
@@ -322,7 +171,7 @@ p1 / p2 / p3 / p4 / p5
 
 --
 
-+ Lectures and live coding demos will happen in Zoom, same link for both days.
++ Lectures and live coding demos will happen in Zoom.
 
 ???
 
@@ -340,13 +189,8 @@ p1 / p2 / p3 / p4 / p5
 
 --
 
-+ Questions and answers via Slack, with a specific channel per module.
++ Questions and answers via Zoom.
 
 ???
 
-+ Feel free to ask questions in Slack. We'll do our best to answer live or soon after the workshop. 
-+ The idea would be to gather questions and answers in a Frequently Asked Questions section of the website. 
-+ Try to use Slack for questions, and not the Zoom chat. 
-+ It will easier for us to save questions and answers from Slack than Zoom. 
-+ Let's have a look to the Slack we've created for the workshop. 
-+ There is a specific channel for each module.
++ Feel free to ask questions. We'll do our best to answer live or soon after the workshop. 
