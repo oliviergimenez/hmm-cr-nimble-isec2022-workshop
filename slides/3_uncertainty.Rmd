@@ -1,6 +1,6 @@
 ---
-title: "Known knowns, unknown knowns and unknowns: <br> Uncertainty in state assignment"
-author: "The team"
+title: "Uncertainty in state assignment"
+author: "Olivier Gimenez & Daniel Turek"
 date: "last updated: `r Sys.Date()`"
 output:
   xaringan::moon_reader:
