@@ -1,6 +1,6 @@
 #' ---
 #' title: "Class 1 live demo: Hidden Markov models and capture-recapture data"
-#' author: "The team"
+#' author: "Olivier Gimenez & Daniel Turek"
 #' date: "last updated: `r Sys.Date()`"
 #' output: html_document
 #' ---
