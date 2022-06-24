@@ -1,6 +1,6 @@
 ---
 title: "Skip your coffee break: Speed up MCMC convergence"
-author: "The team"
+author: "Daniel Turek & Olivier Gimenez"
 date: "last updated: `r Sys.Date()`"
 output:
   xaringan::moon_reader:

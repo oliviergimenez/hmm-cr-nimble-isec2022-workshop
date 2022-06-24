@@ -3,7 +3,7 @@
   <head>
     <title>Skip your coffee break: Speed up MCMC convergence</title>
     <meta charset="utf-8" />
-    <meta name="author" content="The team" />
+    <meta name="author" content="Daniel Turek &amp; Olivier Gimenez" />
     <script src="libs/header-attrs/header-attrs.js"></script>
     <link href="libs/remark-css/default.css" rel="stylesheet" />
     <link rel="stylesheet" href="slides-theme.css" type="text/css" />
@@ -13,8 +13,8 @@
 class: center, middle, title-slide
 
 # Skip your coffee break: Speed up MCMC convergence
-### The team
-### last updated: 2022-06-08
+### Daniel Turek &amp; Olivier Gimenez
+### last updated: 2022-06-24
 
 ---
 
@@ -114,8 +114,8 @@ MCMCsummary(object = mcmc.phip, round = 2)
 
 ```
     mean   sd 2.5%  50% 97.5% Rhat n.eff
-p   0.90 0.03 0.84 0.90  0.95 1.00   237
-phi 0.56 0.03 0.51 0.56  0.61 1.01   497
+p   0.90 0.03 0.83 0.90  0.95 1.00   208
+phi 0.56 0.03 0.51 0.56  0.61 1.01   489
 ```
 ]
 
@@ -245,7 +245,7 @@ summary(samples[,"phi"])
 
 ```
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
- 0.4921  0.5533  0.5672  0.5864  0.5850  0.8467 
+ 0.5049  0.5452  0.5583  0.5755  0.5872  0.8214 
 ```
 
 ```r
@@ -254,7 +254,7 @@ summary(samples[,"p"])
 
 ```
    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
- 0.2657  0.8702  0.8913  0.8520  0.9167  0.9808 
+ 0.2289  0.8631  0.8929  0.8648  0.9171  0.9636 
 ```
 ]
 
@@ -277,7 +277,7 @@ hmm.phip$gamma
 
 ```
           [,1]      [,2]
-[1,] 0.8466788 0.1533212
+[1,] 0.1071727 0.8928273
 [2,] 0.0000000 1.0000000
 ```
 
@@ -289,7 +289,7 @@ hmm.phip$calculate()
 ```
 
 ```
-[1] -934.7684
+[1] -2532.144
 ```
 
 ---
@@ -315,7 +315,7 @@ c(phip.model$calculate("z[5,]"), # Bird 5 is valid.
 ```
 
 ```
-[1] -3.86973     -Inf
+[1] -3.627276      -Inf
 ```
 
 ```r
@@ -493,7 +493,7 @@ categorical sampler (1103)
 
 + Efficiency with default sampler = 25.7 / 21.53 = 1.19.
 
-+ Efficiency with slice sampler = 25.9 / 16.81 = 1.54.
++ Efficiency with slice sampler = 21.25 / 30.37 = 0.7.
 
 ---
 ## Block sampling

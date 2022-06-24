@@ -1,6 +1,6 @@
 ---
 title: "On the move: Transition estimation"
-author: "The team"
+author: "Daniel Turek & Olivier Gimenez"
 date: "last updated: `r Sys.Date()`"
 output:
   xaringan::moon_reader:
@@ -63,18 +63,18 @@ library(nimble)
 ]
 
 
----
-class: middle, center
-background-color: #230404
+<!-- --- -->
+<!-- class: middle, center -->
+<!-- background-color: #230404 -->
 
-## <span style="color: white;">Thank you Canada!</span>
+<!-- ## <span style="color: white;">Thank you Canada!</span> -->
 
 
-![](img/deadpool.gif)
+<!-- ![](img/deadpool.gif) -->
 
----
-background-image: url(https://media.giphy.com/media/26BRGxMMN3Pn1MMdG/source.gif)
-background-size: cover
+<!-- --- -->
+<!-- background-image: url(https://media.giphy.com/media/26BRGxMMN3Pn1MMdG/source.gif) -->
+<!-- background-size: cover -->
 
 ---
 
