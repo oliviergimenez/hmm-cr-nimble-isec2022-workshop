@@ -160,8 +160,7 @@ class: middle, center
 + Website will be updated with
 
     + video recordings
-    + longer version of the workshop at <https://oliviergimenez.github.io/bayesian-cr-workshop/>
-    + with a FAQ section
+    + your feedbacks
 
 ???
 
@@ -171,11 +170,15 @@ class: middle, center
 
 --
 
++ There is a longer version of the workshop at <https://oliviergimenez.github.io/bayesian-cr-workshop/>, with a FAQ section.
+
+--
+
 + A book is on its way. Check out the online version at <https://oliviergimenez.github.io/banana-book/>. More in 2023 hopefully.
 
 ???
 
 + And last, a book is on its way. Based on the material we used for the workshop and more stuff. 
 + Also half the book will be about case studies reproducing analysis from published papers. 
-+ More in 2022 hopefully. 
++ More in 2023 hopefully. 
 
