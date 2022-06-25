@@ -21,6 +21,85 @@ library(nimble)
 
 In this demo, we introduce Markov models and hidden Markov models following up on the survival example. Now we'll be using longitudinal data, that is data collected over time on the same individuals. We will also briefly see how to simulate data. Simulating data often proves useful to better understand how your model works, check that you get the right answer by comparing the parameters you used to simulate the data and the estimates you get, and to communicate with others on the model hypotheses and limitations.
 
+## Simple survival example
+
+First, we load nimble:
+```{r}
+library(nimble)
+```
+
+We sart with a relatively simple model. We write down the code of our model in BUGS syntax:
+```{r}
+naive.survival.model <- nimbleCode({
+  # prior
+  phi ~ dunif(0, 1)
+  # likelihood
+  y ~ dbinom(phi, n)
+})
+```
+
+We read in the data and constants:
+```{r}
+my.constants <- list(n = 57)
+my.data <- list(y = 19)
+```
+
+We pecify initial values:
+```{r}
+initial.values <- function() list(phi = runif(1,0,1))
+initial.values()
+```
+
+Which parameters to save?
+```{r}
+parameters.to.save <- c("phi")
+```
+
+We specifiy MCMC details:
+```{r}
+n.iter <- 5000
+n.burnin <- 1000
+n.chains <- 2
+n.thin <- 1
+```
+
+And, we run our model, tadaa!
+```{r}
+mcmc.output <- nimbleMCMC(code = naive.survival.model,     
+                          data = my.data,  
+                          constants = my.constants,
+                          inits = initial.values,
+                          monitors = parameters.to.save,
+                          thin = n.thin,
+                          niter = n.iter, 
+                          nburnin = n.burnin, 
+                          nchains = n.chains)
+```
+
+Let's explore MCMC outputs:
+```{r}
+str(mcmc.output)
+head(mcmc.output$chain1)
+```
+
+Let's calculate some numerical summaries:
+```{r}
+library(MCMCvis)
+MCMCsummary(mcmc.output, round = 2)
+```
+
+Let's get the trace and posterior density of survival:
+```{r}
+MCMCtrace(mcmc.output,
+          pdf = FALSE)
+
+MCMCtrace(mcmc.output,
+          pdf = FALSE,
+          ind = TRUE,
+          Rhat = TRUE,
+          n.eff = TRUE)
+```
+
 ## Markov chain 
 
 Load some useful packages. 
