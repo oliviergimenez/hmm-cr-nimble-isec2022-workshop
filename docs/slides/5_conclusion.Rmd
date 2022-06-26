@@ -157,10 +157,11 @@ class: middle, center
 
 --
 
-+ Website will be updated with
++ Website will be updated by
 
-    + video recordings
-    + your feedbacks
+    + uploading video recording <https://youtu.be/mvcLHWjVSFY>
+    + including your feedbacks
+    + fixing typos
 
 ???
 

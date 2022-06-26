@@ -26,12 +26,14 @@ You may check a longer version of this workshop [here](https://oliviergimenez.gi
 
 ### Program 
 
-All times are Cape Town/Paris time UTC+2
+All times are Cape Town/Paris time UTC+2. The video recording of the workshop is available at <https://www.youtube.com/watch?v=mvcLHWjVSFY>. 
 
-1. What you see is not what you get: Hidden Markov models and capture-recapture data (9:00am-9:45am)
-2. On the move: Transition estimation (10:00am-10:45am)
-3. Known knowns, unknown knowns and unknowns: Uncertainty in state assignment (11:00am-11:45am)
-4. Skip your coffee break: Speed up MCMC convergence (noon-12:45pm)
+1. Welcoming words (Olivier)
+2. What you see is not what you get: Hidden Markov models and capture-recapture data (Olivier)
+3. On the move: Transition estimation (Daniel)
+4. Known knowns, unknown knowns and unknowns: Uncertainty in state assignment (Olivier)
+5. Skip your coffee break: Speed up MCMC convergence (Daniel)
+6. Conclusions, take-home messages and recommendations (Olivier)
 
 ### Requirements
 
