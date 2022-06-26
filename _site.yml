@@ -44,6 +44,15 @@ navbar:
           href: worksheets/4_demo.html
         - text: "Class 4 live demo - R script"
           href: worksheets/4_demo.R
+    - text: "Download data"
+      href: https://github.com/oliviergimenez/bayesian-cr-workshop/raw/master/worksheets/data.zip
+    - text: "Q&A"
+      href: "Q&A.pdf"
+    - text: "Video recording"
+      href: https://youtu.be/mvcLHWjVSFY
+      
+      
+      
     - icon: fab fa-github
       href: https://github.com/oliviergimenez/hmm-cr-nimble-isec2022-workshop
 
